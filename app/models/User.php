@@ -7,7 +7,7 @@ class User {
     public $auth = false;
 
     public function __construct() {
-        
+
     }
 
     public function test () {
@@ -30,7 +30,6 @@ class User {
         $username = strtolower($username);
         $db = db_connect();
 
-        // Lockout check
         if (isset($_SESSION['lockout_until']) && time() < $_SESSION['lockout_until']) {
             $_SESSION['login_error'] = 'Too many failed attempts. Please try again in ' . ($_SESSION['lockout_until'] - time()) . ' seconds.';
             $this->logLoginAttempt($username, 'locked');
@@ -45,6 +44,7 @@ class User {
         if ($rows && ($password === $rows['password'] || password_verify($password, $rows['password']))) {
             $_SESSION['auth'] = 1;
             $_SESSION['username'] = ucwords($username);
+            $_SESSION['user_id'] = $rows['id'];
             unset($_SESSION['failedAuth']);
             unset($_SESSION['lockout_until']);
             $this->logLoginAttempt($username, 'good');
@@ -52,7 +52,7 @@ class User {
             die;
         } else {
             if(isset($_SESSION['failedAuth'])) {
-                $_SESSION['failedAuth'] ++; //increment
+                $_SESSION['failedAuth'] ++; 
             } else {
                 $_SESSION['failedAuth'] = 1;
             }
@@ -72,7 +72,6 @@ class User {
     public function register($username, $password) {
         $username = strtolower($username);
         $db = db_connect();
-        // Check if username exists
         $statement = $db->prepare("SELECT * FROM users WHERE username = :name;");
         $statement->bindValue(':name', $username);
         $statement->execute();
@@ -80,7 +79,6 @@ class User {
         if ($row) {
             return 'Username already exists.';
         }
-        // Hash password and insert
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $statement = $db->prepare("INSERT INTO users (username, password) VALUES (:name, :pass);");
         $statement->bindValue(':name', $username);
