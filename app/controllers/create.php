@@ -3,7 +3,7 @@
 class Create extends Controller {
 
     public function index() {		
-	    $this->view('create/index');
+        $this->view('create/index');
     }
 
     public function register() {
@@ -17,7 +17,7 @@ class Create extends Controller {
                 header('Location: /create');
                 exit;
             }
-            
+
             if ($password !== $confirm) {
                 $_SESSION['register_error'] = 'Passwords do not match.';
                 header('Location: /create');
