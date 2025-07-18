@@ -1,65 +1,74 @@
-    <?php require_once 'app/views/templates/header.php' ?>
-    <style>
-    .home-container {
+<?php require_once 'app/views/templates/header.php' ?>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .home-wrapper {
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 70vh;
-        background: #f8fafc;
+        min-height: 80vh;
     }
+
     .home-card {
         background: #fff;
         border-radius: 16px;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-        padding: 48px 40px 32px 40px;
-        max-width: 480px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        padding: 50px 40px;
+        max-width: 500px;
         width: 100%;
         text-align: center;
-        margin-top: 40px;
     }
-    .home-title {
-        font-size: 2.5rem;
+
+    .home-card h1 {
+        font-size: 2.4rem;
         font-weight: 700;
-        margin-bottom: 12px;
-        color: #22223b;
+        margin-bottom: 10px;
+        color: #007bff;
     }
-    .home-emoji {
-        font-size: 2.2rem;
-        vertical-align: middle;
-        margin-right: 8px;
-    }
-    .home-date {
-        color: #4a5568;
+
+    .home-card p {
         font-size: 1.1rem;
-        margin-bottom: 24px;
+        color: #4a5568;
+        margin-bottom: 30px;
     }
-    .home-logout {
-        display: inline-block;
-        margin-top: 24px;
-        padding: 10px 24px;
-        background: #22223b;
-        color: #fff;
+
+    .logout-btn {
+        background-color: #007bff;
+        color: white;
         border: none;
-        border-radius: 6px;
+        padding: 12px 28px;
         font-size: 1rem;
+        border-radius: 6px;
+        transition: background 0.3s;
         text-decoration: none;
-        transition: background 0.2s;
+        display: inline-block;
     }
-    .home-logout:hover {
-        background: #4a4e69;
+
+    .logout-btn:hover {
+        background-color: #0056b3;
     }
-    </style>
-    <div class="home-container">
-        <div class="home-card">
-            <div class="home-title">
-                <span class="home-emoji">👋</span>
-                Hey, <?= isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'User' ?>
-            </div>
-            <div class="home-date">
-                <?= date("F jS, Y") ?>
-            </div>
-            <a href="/logout" class="home-logout">Logout</a>
-        </div>
+
+    .emoji {
+        font-size: 2.2rem;
+        margin-right: 6px;
+        vertical-align: middle;
+    }
+</style>
+
+<div class="home-wrapper">
+    <div class="home-card">
+        <h1>
+            <span class="emoji">👋</span>
+            Welcome, <?= isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'User' ?>
+        </h1>
+        <p><i class="far fa-calendar-alt me-1"></i><?= date("F jS, Y") ?></p>
+        <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt me-1"></i> Logout</a>
     </div>
-    <?php require_once 'app/views/templates/footer.php' ?>
+</div>
+
+<?php require_once 'app/views/templates/footer.php' ?>
